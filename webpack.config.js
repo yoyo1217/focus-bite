@@ -7,6 +7,7 @@ module.exports = {
   devtool: 'cheap-module-source-map',
   entry: {
     popup: path.resolve('src/popup/popup.tsx'),
+    options: path.resolve('src/options/options.tsx'),
   },
   module: {
     rules: [
@@ -14,6 +15,14 @@ module.exports = {
         use: 'ts-loader',
         test: /\.tsx$/,
         exclude: /node_modules/,
+      },
+      {
+        use: ['style-loader', 'css-loader'],
+        test: /\.css$/i,
+      },
+      {
+        type: 'asset/resource',
+        test: /\.(jpg|jpeg|png|woff|woff3|eot|ttf|svg)$/,
       }
     ]
   },
@@ -21,16 +30,15 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: path.resolve('src/manifest.json'),
+          from: path.resolve('src/static'),
           to: path.resolve('dist'),
         }
       ]
     }),
-    new HtmlPlugin({
-      title: 'Pomodor Timer',
-      filename: 'popup.html',
-      chunks: ['popup']
-    })
+    ...getHtmlPlugins([
+      'popup',
+      'options'
+    ])
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.js']
@@ -38,5 +46,18 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist')
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    }
   }
+}
+
+function getHtmlPlugins(chunks){
+  return chunks.map((chunk) => new HtmlPlugin({
+    title: 'Pomodoro Timer',
+    filename: `${chunk}.html`,
+    chunks: [chunk]
+  }))
 }
