@@ -8,13 +8,14 @@ module.exports = {
     popup: path.resolve('src/popup/popup.tsx'),
     options: path.resolve('src/options/options.tsx'),
     background: path.resolve('src/background/background.ts'),
-    contentScript: path.resolve('src/contentScript/contentScript.ts')
+    contentScript: path.resolve('src/contentScript/contentScript.ts'),
+    notification: path.resolve('src/notification/notification.tsx')
   },
   module: {
     rules: [
       {
         use: 'ts-loader',
-        test: /\.tsx$/,
+        test: /\.tsx?$/,
         exclude: /node_modules/,
       },
       {
@@ -41,7 +42,8 @@ module.exports = {
     }),
     ...getHtmlPlugins([
       'popup',
-      'options'
+      'options',
+      'notification'
     ])
   ],
   resolve: {
