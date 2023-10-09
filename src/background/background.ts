@@ -1,11 +1,12 @@
-let timer;
-let isRunning;
+import { formatTime, changeBadge, POMODORO_COLOR } from "../utils/utils";
 
-function formatTime(seconds){
-  const min = Math.floor(seconds / 60)
-  const sec = seconds % 60
-  return `${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`;
-}
+let timer: number;
+let isRunning: boolean;
+
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.storage.local.set({ timer: 1500, isRunning: false })
+  changeBadge({ text: formatTime(1500), textColor: "white", backgroundColor: POMODORO_COLOR})
+})
 
 chrome.storage.local.get(["timer", "isRunning", "timeOption"], (res) => {
   timer = res.timer !== undefined ? res.timer : 25 * 60
@@ -15,22 +16,22 @@ chrome.storage.local.get(["timer", "isRunning", "timeOption"], (res) => {
 chrome.alarms.onAlarm.addListener((alarm) => {
   if(alarm.name === "pomodoroTimer" && isRunning){
       timer--;
+      chrome.storage.local.set({ timer })
 
     if(timer <= 0){
       console.log("time up");
-      chrome.action.setBadgeText({text: 'End'})
+      changeBadge({ text: "End"})
       // chrome.tabs.create({ url: "notification.html"})
       resetTimer()
     }else{
-      chrome.storage.local.set({ timer })
       const min = formatTime(timer)
       chrome.action.setBadgeText({ text: min })
+      console.log("timer changed at background.ts");
     }
   }
 })
 
 function startTimer(){
-  chrome.action.setBadgeText({text: ''});
   chrome.storage.local.get(["timer"], (res) => {
     timer = res.timer
     isRunning = true
@@ -49,6 +50,8 @@ function resetTimer(){
   timer = 25 * 60
   isRunning = false
   chrome.storage.local.set({timer, isRunning})
+  const min = formatTime(timer)
+  chrome.action.setBadgeText({ text: min })
   chrome.alarms.clear("pomodoroTimer")
 }
 

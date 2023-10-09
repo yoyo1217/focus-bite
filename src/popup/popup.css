@@ -3,6 +3,12 @@ body {
   height: 400px;
 }
 
+.header {
+  display: flex;
+  justify-content: center;
+  font-size: large;
+}
+
 a {
   position: fixed;
   bottom: 5%;

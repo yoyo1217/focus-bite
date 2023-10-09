@@ -13,15 +13,8 @@ const App = () => {
 
   return(
     <>
-      <h1>Pomodoro</h1>
+      <div className='header'>Pomodoro</div>
       <Timer />
-      {/* <button onClick={updateTimer}>
-        {timerData.isRunning ? "Stop" : "Start"}
-      </button> */}
-      {/* <Timer time={} isActive={null}/> */}
-      {/* <button onClick={toggleTimer}>
-        {isActive ? "Stop" : "Start"}
-      </button> */}
       <a href="https://www.flaticon.com/free-icons/short-term" title="short-term icons">Short-term icons created by Freepik - Flaticon</a>
     </>
   )

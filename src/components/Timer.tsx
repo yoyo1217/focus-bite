@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react"
-import { getTime } from "../utils/storage"
+import { formatTime, changeBadge, POMODORO_COLOR } from "../utils/utils"
+import "./Timer.css"
 
 
 const Timer = () => {
   const [timer, setTimer] = useState(0)
   const [isRunning, setIsRunning] = useState(false)
-  const [inputVal, setInputVal] = useState('1500')
-  const [warning, setWarning] = useState('')
 
   useEffect(() => {
     chrome.storage.local.get(["timer", "isRunning"], res => {
@@ -17,6 +16,8 @@ const Timer = () => {
     const handleStorageChange = changes => {
       if('timer' in changes){
         setTimer(changes.timer.newValue)
+        console.log("timer changed at Timer.tsx", "timer: ", changes.timer.newValue);
+        changeBadge({ text: formatTime(changes.timer.newValue)})
       }
 
       if('isRunning' in changes){
@@ -31,28 +32,6 @@ const Timer = () => {
     }
   }, [])
 
-  const handleInputChange = (e) => {
-    const value = e.target.value
-    setInputVal(value)
-    
-    if(!value || (isNaN(value) || value < 1 || value > 1500 || !Number.isInteger(+value) || !/^\d+$/.test(value))){
-      setWarning('Please enter an integer beteeen 1 and 1500')
-    }else{
-      setWarning('')
-    }
-  }
-
-  const handleSubmit = () => {
-    if(warning){
-      alert('Cannot set timer: ' + warning)
-      return;
-    }
-
-    const newTimeVal = parseInt(inputVal)
-    setTimer(newTimeVal)
-    chrome.storage.local.set({ timer: newTimeVal})
-  }
-
   const startTimer = () => {
     chrome.storage.local.get(["timer"], (res) => {
       console.log("startTimer", res.timer);
@@ -66,26 +45,23 @@ const Timer = () => {
   }
   const resetTimer = () => {
     chrome.runtime.sendMessage({action: 'resetTimer'})
+    const min = formatTime(timer)
+    changeBadge({ text: min, textColor: "white", backgroundColor: POMODORO_COLOR})
     setIsRunning(false)
-  }
-
-  function formatTime(seconds){
-    const min = Math.floor(seconds / 60)
-    const sec = seconds % 60
-    return `${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`;
   }
 
 
   return(
     <>
-      <h2>{formatTime(timer)}</h2>
-      <button onClick={isRunning ? pausetTimer : startTimer}>
-        {isRunning ? "Stop" : "Start"}
-      </button>
-      <button onClick={resetTimer}>reset</button>
-      <p>Is Running: {isRunning ? "Yes" : "No"}</p>
-      <input type="number" min="1" max="9999" value={inputVal} onChange={handleInputChange}/>
-      <button onClick={handleSubmit}>Set Timer</button>
+      <h2 id="time">{formatTime(timer)}</h2>
+      <div >
+        <button onClick={isRunning ? pausetTimer : startTimer}>
+          {isRunning ? "Stop" : "Start"}
+        </button>
+        <button onClick={resetTimer}>reset</button>
+        <p>Is Running: {isRunning ? "Yes" : "No"}</p>
+        {/* <p>isBreak: {isBreak ? "Yes" : "No"}</p> */}
+      </div>
     </>
   )
 }
