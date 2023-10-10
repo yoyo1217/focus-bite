@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { formatTime, changeBadge, POMODORO_COLOR } from "../utils/utils"
+import { formatTime, changeBadge, POMODORO_COLOR, TimerStatus } from "../utils/utils"
 import "./Timer.css"
 
 
@@ -21,6 +21,7 @@ const Timer = () => {
       }
 
       if('isRunning' in changes){
+        console.log("isRunning changed at Timer.tsx");
         setIsRunning(changes.isRunning.newValue)
       }
     }

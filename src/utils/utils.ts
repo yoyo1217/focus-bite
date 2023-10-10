@@ -1,4 +1,13 @@
 export const POMODORO_COLOR = "#BA4949"
+export const BREAK_COLOR = "#55C500"
+export const MAX_POMODORO_TIMER = 6000
+export const REGEX_NUMBER = /^[0-9]*$/g
+
+export enum TimerStatus {
+  Running = 'Running',
+  NotRunning = 'NotRunning',
+  Break = 'Break'
+}
 
 export function formatTime(seconds: number){
   const min = Math.floor(seconds / 60)
