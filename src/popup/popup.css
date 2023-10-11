@@ -1,15 +1,4 @@
 body {
   width: 400px;
-  height: 400px;
-}
-
-.header {
-  display: flex;
-  justify-content: center;
-  font-size: large;
-}
-
-a {
-  position: fixed;
-  bottom: 5%;
+  /* height: 200px; */
 }

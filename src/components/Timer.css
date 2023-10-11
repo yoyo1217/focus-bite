@@ -1,3 +1,29 @@
-#time {
-  text-align: center;
+body {
+  background-color: #D69A83;
+  color: whitesmoke;
+}
+
+.btn-container {
+  display: flex;
+  /* align-items: center; */
+}
+
+.setBtn {
+  background-color: #D69A83;
+  border-color: whitesmoke;
+  border-style: solid;
+  border-radius: 5px;
+  color: whitesmoke;
+  padding: 8px;
+  cursor: pointer;
+
+  transition: transform 0.3s ease-in-out;
+}
+
+.setBtn:hover {
+  transform: scale(1.05);
+}
+
+.setBtn:active {
+  background-color: whitesmoke;
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
+import { Box, Typography, CardContent } from '@mui/material'
 import { getTime, updateTime } from '../utils/storage'
 import Timer from '../components/Timer'
 
@@ -7,15 +8,18 @@ import './popup.css'
 
 
 const App = () => {
-  const [timeLeft, setTimeLeft] = useState<number>(1500)
-  const [isDisplay, setIsDisplay] = useState(true)
-
-
   return(
     <>
-      <div className='header'>Pomodoro</div>
-      <Timer />
-      <a href="https://www.flaticon.com/free-icons/short-term" title="short-term icons">Short-term icons created by Freepik - Flaticon</a>
+      <Box sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        minHeight: '200px'
+      }}>
+        <Typography variant='h2'>Pomodoro</Typography>
+          <Timer />
+      </Box>
     </>
   )
 }
