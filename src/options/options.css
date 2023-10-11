@@ -1,0 +1,43 @@
+body {
+  background-color: #D69A83;
+  color: whitesmoke;
+}
+
+.parent-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.input-btn-container {
+  border: 1px solid whitesmoke;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.setBtn {
+  background-color: #D69A83;
+  border-color: whitesmoke;
+  border-style: solid;
+  color: whitesmoke;
+  padding: 8px 20px;
+  cursor: pointer;
+
+  transition: transform 0.3s ease-in-out;
+}
+
+.setBtn:hover {
+  transform: scale(1.05)
+}
+
+.setBtn:active {
+  background-color: whitesmoke;
+}
+
+input {
+  flex-grow: 1;
+  border: none;
+  padding: 10px;
+  outline: none;
+}
+

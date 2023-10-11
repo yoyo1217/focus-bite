@@ -1,0 +1,5 @@
+.container {
+  position: absolute;
+  /* right side of .parent-container */
+  left: calc(100% + 5px)
+}
