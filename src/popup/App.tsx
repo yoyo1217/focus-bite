@@ -17,9 +17,7 @@ export const App = () => {
         minHeight: '100vh'
       }}>
         <Typography variant='h1'>Pomodoro</Typography>
-        <CardContent>
           <Timer />
-        </CardContent>
       </Box>
     </>
   );
