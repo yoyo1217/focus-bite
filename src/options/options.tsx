@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Box ,Card, CardContent, Typography } from '@mui/material'
 import { createRoot } from 'react-dom/client'
 import CheckMark from '../components/CheckMark'
 import './options.css'
@@ -53,16 +52,9 @@ const Options = () => {
 
 
   return(
-      <Box sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        minHeight: '100vh'
-      }}>
-        <Typography variant='h1'>Setting</Typography>
-        <CardContent>
-          <Typography sx={{ fontSize: 20 }}>Time (seconds)</Typography>
+        <div className='main'>
+        <h1>Setting</h1>
+          <h1>Time (seconds)</h1>
           <div className='parent-container'>
             <div className='input-btn-container'>
               <input type="number" value={time.pomodoroTimer} name="pomodoroTimer" onChange={handleInputChange}/>
@@ -70,9 +62,7 @@ const Options = () => {
             </div>
             {notificationType === "pomodoro" && <CheckMark />}
           </div>
-        </CardContent>
-        <CardContent>
-            <Typography sx={({ fontSize: 20 })}>Break Time (seconds)</Typography>
+          <h1>Break Time (seconds)</h1>
           <div className='parent-container'>
             <div className='input-btn-container'>
               <input type="number" value={time.breakTimer} name="breakTimer" onChange={handleInputChange}/>
@@ -80,8 +70,7 @@ const Options = () => {
             </div>
             {notificationType === "break" && <CheckMark />}
             </div>
-        </CardContent>
-      </Box>
+      </div>
   )
 }
 

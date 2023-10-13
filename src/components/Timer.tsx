@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import { Box, Typography, CardContent } from "@mui/material"
 import { formatTime, changeBadge, POMODORO_COLOR, TimerStatus } from "../utils/utils"
 import "./Timer.css"
 
@@ -49,9 +48,9 @@ const Timer = () => {
 
 
   return(
-    <CardContent style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
-      <Typography variant="h1">{formatTime(timer)}</Typography>
-        <div className="btn-container" style={{ display: 'flex', justifyContent: 'center' }}>
+    <>
+      <h2>{formatTime(timer)}</h2>
+        <div className="btn-container">
           <button className="setBtn" onClick={isRunning ? pausetTimer : startTimer}>
             {isRunning ? "Stop" : "Start"}
           </button>
@@ -60,7 +59,7 @@ const Timer = () => {
         {/* For debug */}
         <p>IsRunning: {isRunning ? "Yes" : "No"}</p>
         {/* <p>isBreak: {isBreak ? "Yes" : "No"}</p> */}
-    </CardContent>
+    </>
   )
 }
 

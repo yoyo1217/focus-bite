@@ -1,20 +1,32 @@
 body {
   background-color: #D69A83;
-  color: whitesmoke;
+  color: #ffffff;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+h2 {
+  font-size: 10vw;
 }
 
 .btn-container {
   display: flex;
+  justify-content: center;
+  gap: 20px;
   /* align-items: center; */
 }
 
 .setBtn {
   background-color: #D69A83;
-  border-color: whitesmoke;
+  border-color: #ffffff;
   border-style: solid;
   border-radius: 5px;
-  color: whitesmoke;
-  padding: 8px;
+  color: #ffffff;
+  padding: 10px 20px;
   cursor: pointer;
 
   transition: transform 0.3s ease-in-out;
@@ -25,5 +37,5 @@ body {
 }
 
 .setBtn:active {
-  background-color: whitesmoke;
+  background-color: #ffffff;
 }
