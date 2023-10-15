@@ -6,6 +6,7 @@ import "./Timer.css"
 const Timer = () => {
   const [timer, setTimer] = useState(0)
   const [isRunning, setIsRunning] = useState(false)
+  const [shake, setShake] = useState(false)
 
   useEffect(() => {
     chrome.storage.local.get(["timer", "isRunning"], res => {
@@ -31,7 +32,12 @@ const Timer = () => {
     }
   }, [])
 
+  const handleAnimationEnd = () => {
+    setShake(false)
+  }
+
   const startTimer = () => {
+    setShake(true)
     chrome.runtime.sendMessage({action: 'startTimer'})
     setIsRunning(true)
   }
@@ -49,7 +55,10 @@ const Timer = () => {
 
   return(
     <>
-      <h2>{formatTime(timer)}</h2>
+      <h2
+        className={shake ? 'shake-animation' : ''}
+        onAnimationEnd={handleAnimationEnd}  
+      >{formatTime(timer)}</h2>
         <div className="btn-container">
           <button className="setBtn" onClick={isRunning ? pausetTimer : startTimer}>
             {isRunning ? "Stop" : "Start"}
