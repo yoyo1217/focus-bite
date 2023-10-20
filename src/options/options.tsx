@@ -3,12 +3,12 @@ import { createRoot } from 'react-dom/client'
 import CheckMark from '../components/CheckMark'
 import './options.css'
 import { BREAK_COLOR, MAX_POMODORO_TIMER, POMODORO_COLOR, REGEX_NUMBER, changeBadge, formatTime } from '../utils/utils'
-import Timer from '../components/Timer'
 
-const Options = () => {
-  const [time, setTime] = useState({ pomodoroTimer: "1500", breakTimer: "300"})
+const Options: React.FC = () => {
+  const [time, setTime] = useState<{ pomodoroTimer: string, breakTimer: string} | undefined>({ pomodoroTimer: "1500", breakTimer: "300"})
   const [warning, setWarning] = useState('')
-  const [notificationType, setNotificationType] = useState("")
+  const [notificationType, setNotificationType] = useState('')
+  const [isDisabled, setIsDisabled] = useState(false)
 
   useEffect(() => {
     chrome.storage.local.get(["timerOption", "breakOption"], (res) => {
@@ -30,6 +30,7 @@ const Options = () => {
   }
 
   const handleSubmit = (timer: string, timerType: string) => {
+    console.log("handleSubmit");
     if(warning){
       alert('Cannot set timer: ' + warning)
       return;
@@ -37,19 +38,20 @@ const Options = () => {
 
     chrome.runtime.sendMessage({action: 'pauseTimer'})
     if(timerType === "pomodoro"){
-        chrome.storage.local.set({ timer: time.pomodoroTimer, timerOption: timer})
+      console.log("time.pomodoroTimer", time.pomodoroTimer);
+        chrome.storage.local.set({ currentTimer: time.pomodoroTimer, timerOption: timer, timerState: "focus"})
         changeBadge({ text: formatTime(+timer), textColor: "white", backgroundColor: POMODORO_COLOR}) 
     }else {
-        chrome.storage.local.set({ timer: time.breakTimer, breakOption: timer})
+        chrome.storage.local.set({ currentTimer: time.breakTimer, breakOption: timer, timerState: "break"})
         changeBadge({ text: formatTime(+timer), textColor: "white", backgroundColor: BREAK_COLOR}) 
     }
     setNotificationType(timerType)
+    setIsDisabled(true)
     setTimeout(() => {
       setNotificationType("")
-    }, 3000)
+      setIsDisabled(false)
+    }, 2000)
   }
-
-
 
   return(
         <div className='main'>
@@ -58,7 +60,13 @@ const Options = () => {
           <div className='parent-container'>
             <div className='input-btn-container'>
               <input type="number" value={time.pomodoroTimer} name="pomodoroTimer" onChange={handleInputChange}/>
-              <button className='setBtn' onClick={() => handleSubmit(time.pomodoroTimer, "pomodoro")}>SAVE</button>
+              <button 
+                className='setBtn'
+                onClick={() => handleSubmit(time.pomodoroTimer, "pomodoro")} 
+                disabled={isDisabled}
+              >
+                {isDisabled ? "SAVING" : "SAVE"}
+              </button>
             </div>
             {notificationType === "pomodoro" && <CheckMark />}
           </div>
@@ -66,7 +74,13 @@ const Options = () => {
           <div className='parent-container'>
             <div className='input-btn-container'>
               <input type="number" value={time.breakTimer} name="breakTimer" onChange={handleInputChange}/>
-              <button className='setBtn' onClick={() => handleSubmit(time.breakTimer, "break")}>SAVE</button>
+              <button 
+                className='setBtn'
+                onClick={() => handleSubmit(time.breakTimer, "break")}
+                disabled={isDisabled}
+              >
+                {isDisabled ? "SAVING..." : "SAVE"}
+              </button>
             </div>
             {notificationType === "break" && <CheckMark />}
             </div>

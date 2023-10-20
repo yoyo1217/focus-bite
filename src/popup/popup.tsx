@@ -9,7 +9,7 @@ import './popup.css'
 const App = () => {
   return(
     <div className='main'>
-        <h1>Pomodoro</h1>
+        <h1>Focus Bite</h1>
         <Timer />
     </div>
   )

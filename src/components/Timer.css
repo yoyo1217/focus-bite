@@ -39,8 +39,15 @@ h2 {
   /* align-items: center; */
 }
 
-.setBtn {
+.focus {
   background-color: #D69A83;
+}
+
+.break {
+  background-color: #0D7E8C;
+}
+
+.setBtn {
   border-color: #ffffff;
   border-style: solid;
   border-radius: 5px;
@@ -52,10 +59,26 @@ h2 {
   transition: transform 0.3s ease-in-out;
 }
 
+.focus:focus {
+  outline: none;
+  background-color: #E8B9A7;
+}
+
+.break:focus {
+  outline: none;
+  background-color: #3C929B;
+}
+
 .setBtn:hover {
   transform: scale(1.05);
 }
 
 .setBtn:active {
   background-color: #ffffff;
+}
+
+.setBtn:disabled {
+  /* background-color: #F3D5C7;  */
+  opacity: 0.6;
+  cursor: not-allowed;
 }

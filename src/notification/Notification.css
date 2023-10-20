@@ -5,6 +5,7 @@
 body {
   background-color: var(--main-color);
   color: #ffffff;
+  font-size: 24px;
 }
 
 .main {
@@ -15,46 +16,23 @@ body {
   min-height: 100vh;
 }
 
-.parent-container {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
-.input-btn-container {
-  border: 1px solid #ffffff;
-  border-radius: 5px;
-  overflow: hidden;
-}
-
-.setBtn {
+button {
   background-color: var(--main-color);
+  font-size: 30px;
   border-color: #ffffff;
   border-style: solid;
   color: #ffffff;
   padding: 8px 20px;
   cursor: pointer;
+  margin-top: 12px;
 
   transition: transform 0.3s ease-in-out;
 }
 
-.setBtn:hover {
+button:hover {
   transform: scale(1.05)
 }
 
-.setBtn:active {
+button:active {
   background-color: #ffffff;
 }
-
-.setBtn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-
-input {
-  flex-grow: 1;
-  border: none;
-  padding: 10px;
-  outline: none;
-}
-

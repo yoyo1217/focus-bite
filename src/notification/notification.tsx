@@ -1,23 +1,27 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
+import './Notification.css'
 
-const App = () => {
-  const [newTabId, setNewTabId] = useState(null)
+const Notification: React.FC = () => {
 
-  const handleCloseTab = () => {
-    chrome.runtime.sendMessage({ action: 'getTabId'})
+  const handleCloseWorkTab = () => {
+    chrome.runtime.sendMessage({ action: 'work'})
+  }
+
+  const handleCloseBreakTab = () => {
+    chrome.runtime.sendMessage({ action: 'break'})
   }
 
   return(
-    <>
+    <div className='main'>
       <h1>notifications</h1>
-      <button onClick={handleCloseTab}>Keep Working?</button>
-      <button onClick={handleCloseTab}>Rest for a bit</button>
-    </>
+      <button onClick={handleCloseWorkTab}>Keep Working?</button>
+      <button onClick={handleCloseBreakTab}>Rest for a bit</button>
+    </div>
   )
 }
 
 const container = document.createElement('div')
 document.body.appendChild(container)
 const root = createRoot(container)
-root.render(<App />)
+root.render(<Notification />)
