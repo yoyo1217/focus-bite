@@ -5,14 +5,14 @@ import './options.css'
 import { BREAK_COLOR, MAX_POMODORO_TIMER, POMODORO_COLOR, REGEX_NUMBER, changeBadge, formatTime } from '../utils/utils'
 
 const Options: React.FC = () => {
-  const [time, setTime] = useState<{ pomodoroTimer: string, breakTimer: string} | undefined>({ pomodoroTimer: "1500", breakTimer: "300"})
+  const [time, setTime] = useState<{ pomodoroTimer: number, breakTimer: number} | undefined>({ pomodoroTimer: 1500, breakTimer: 300})
   const [warning, setWarning] = useState('')
   const [notificationType, setNotificationType] = useState('')
   const [isDisabled, setIsDisabled] = useState(false)
 
   useEffect(() => {
     chrome.storage.local.get(["timerOption", "breakOption"], (res) => {
-      setTime({ pomodoroTimer: res.timerOption || "1500", breakTimer: res.breakOption || "300" })
+      setTime({ pomodoroTimer: res.timerOption || 1500, breakTimer: res.breakOption || 300 })
     })
   }, [])
 
@@ -29,7 +29,7 @@ const Options: React.FC = () => {
     }
   }
 
-  const handleSubmit = (timer: string, timerType: string) => {
+  const handleSubmit = (timer: number, timerType: string) => {
     console.log("handleSubmit");
     if(warning){
       alert('Cannot set timer: ' + warning)
@@ -39,10 +39,10 @@ const Options: React.FC = () => {
     chrome.runtime.sendMessage({action: 'pauseTimer'})
     if(timerType === "pomodoro"){
       console.log("time.pomodoroTimer", time.pomodoroTimer);
-        chrome.storage.local.set({ currentTimer: time.pomodoroTimer, timerOption: timer, timerState: "focus"})
+        chrome.storage.local.set({ currentTimer: time.pomodoroTimer, timerOption: time.pomodoroTimer, workTimer: time.pomodoroTimer ,timerState: "focus"})
         changeBadge({ text: formatTime(+timer), textColor: "white", backgroundColor: POMODORO_COLOR}) 
     }else {
-        chrome.storage.local.set({ currentTimer: time.breakTimer, breakOption: timer, timerState: "break"})
+        chrome.storage.local.set({ currentTimer: time.breakTimer, breakOption: time.breakTimer, breakTimer: time.breakTimer, timerState: "break"})
         changeBadge({ text: formatTime(+timer), textColor: "white", backgroundColor: BREAK_COLOR}) 
     }
     setNotificationType(timerType)

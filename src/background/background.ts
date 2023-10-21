@@ -12,6 +12,7 @@ chrome.runtime.onInstalled.addListener(() => {
 // Timer logic
 chrome.alarms.onAlarm.addListener((alarm) => {
   if(alarm.name === "pomodoroTimer" && isRunning){
+    console.log("currentTimer", currentTimer);
     currentTimer--;
     chrome.storage.local.set({ currentTimer })
 
@@ -47,16 +48,6 @@ function breakTimer(){
   })
 }
 
-// function startTimer(){
-//   chrome.storage.local.get("currentTimer", (res) => {
-//     currentTimer = res.currentTimer
-//     isRunning = true
-//     chrome.storage.local.set({currentTimer, isRunning})
-//     chrome.storage.local.set({ timerState: "focus"})
-//     chrome.alarms.create("pomodoroTimer", { periodInMinutes: 1 / 60 })
-//   })
-// }
-
 function pauseTimer(){
   isRunning = false
   chrome.storage.local.set({isRunning})
@@ -90,11 +81,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   switch(message.action){
     case 'focusTimer':
       focusTimer()
-      // startTimer()
       break
     case 'breakTimer':
       breakTimer()
-      // startTimer()
       break
     case 'pauseTimer':
       pauseTimer()
@@ -107,7 +96,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       break
     case 'break':
       breakTimer()
-      // startTimer()
       break
   }
   sendResponse({timer: currentTimer, isRunning})
@@ -119,7 +107,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if(request.action === 'work'){
     sendResponse({ tabId: sender.tab.id})
-    // console.log("sender.tab", sender.tab);
     if(sender.tab && sender.tab.id){
       chrome.tabs.remove(sender.tab.id)
       chrome.storage.local.get("timerOption", res => {
@@ -129,7 +116,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         chrome.storage.local.set({currentTimer, isRunning})
         chrome.alarms.create("pomodoroTimer", { periodInMinutes: 1 / 60 })
       })
-      // startTimer()
     }
   }else if(request.action === 'break'){
     sendResponse({ tabId: sender.tab.id})
@@ -142,16 +128,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         chrome.storage.local.set({currentTimer, isRunning})
         chrome.alarms.create("pomodoroTimer", { periodInMinutes: 1 / 60 })
       })
-      // breakTimer()
     }
   }
 })
-
-
-// const handleHoge = changes => {
-//   if('timerOption' in changes){
-//     console.log("timerOption changed");
-//   }
-// }
-
-// chrome.storage.onChanged.addListener(handleHoge)

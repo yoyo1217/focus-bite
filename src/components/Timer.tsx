@@ -120,9 +120,9 @@ const Timer: React.FC = () => {
           </button>
         </div>
         {/* For debug */}
-        <p>IsRunning: {isRunning ? "Yes" : "No"}</p>
+        {/* <p>IsRunning: {isRunning ? "Yes" : "No"}</p> */}
         {/* <p>isBreak: {isBreak ? "Yes" : "No"}</p> */}
-        <p>TimerState: {timerState}</p>
+        {/* <p>TimerState: {timerState}</p> */}
     </>
   )
 }
