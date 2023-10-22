@@ -15,8 +15,6 @@ const Timer: React.FC = () => {
       const mainColor = currentState === "focus" ? POMODORO_COLOR : BREAK_COLOR
       setTimerState(currentState)
       document.body.style.backgroundColor = mainColor
-      
-      console.log("res.currentTimer", res.currentTimer);
       setTimer(res.currentTimer)
       setIsRunning(res.isRunning)
     })
@@ -33,13 +31,6 @@ const Timer: React.FC = () => {
 
       if('timerOption' in changes){
         setTimer(changes.timerOption.newValue)
-      }
-
-      if('timerState' in changes){
-        const currentState = changes.timerState.newValue
-        const mainColor = currentState === "focus" ? POMODORO_COLOR : BREAK_COLOR
-        setTimerState(currentState)
-        document.body.style.backgroundColor = mainColor
       }
     }
 

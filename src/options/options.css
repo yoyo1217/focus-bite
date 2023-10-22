@@ -5,6 +5,7 @@
 body {
   background-color: var(--main-color);
   color: #ffffff;
+  font-family: "playpen-sans";
 }
 
 .main {
@@ -36,6 +37,11 @@ body {
   cursor: pointer;
 
   transition: transform 0.3s ease-in-out;
+}
+
+.setBtn:focus {
+  outline: none;
+  background-color: #E8B9A7;
 }
 
 .setBtn:hover {

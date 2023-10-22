@@ -1,7 +1,6 @@
 export const POMODORO_COLOR = "#D69A83"
 export const BREAK_COLOR = "#0D7E8C"
-export const MAX_POMODORO_TIMER = 6000
-export const REGEX_NUMBER = /^[0-9]*$/g
+export const MAX_POMODORO_TIMER = 100
 
 export type TimerState = 'focus' | 'break';
 

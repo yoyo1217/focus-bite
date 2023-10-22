@@ -12,7 +12,7 @@ chrome.runtime.onInstalled.addListener(() => {
 // Timer logic
 chrome.alarms.onAlarm.addListener((alarm) => {
   if(alarm.name === "pomodoroTimer" && isRunning){
-    console.log("currentTimer", currentTimer);
+    // console.log("currentTimer", currentTimer);
     currentTimer--;
     chrome.storage.local.set({ currentTimer })
 
@@ -27,25 +27,16 @@ chrome.alarms.onAlarm.addListener((alarm) => {
   }
 })
 
-
-function focusTimer(){
-  chrome.storage.local.get("currentTimer", (res) => {
-    currentTimer = res.currentTimer
+function setTimer(timerType: "focus" | "break"){
+  const timerKey = timerType === "focus" ? "currentTimer" : "breakTimer"
+  chrome.storage.local.get(timerKey, res => {
+    currentTimer = res[timerKey]
     isRunning = true
-    chrome.storage.local.set({isRunning})
-    chrome.storage.local.set({ timerState: "focus"})
-    chrome.alarms.create("pomodoroTimer", { periodInMinutes: 1 / 60 })
-  })
-}
 
-function breakTimer(){
-  chrome.storage.local.get(["breakTimer"], res => {
-    currentTimer = res.breakTimer
-    isRunning = true
-    chrome.storage.local.set({isRunning})
-    chrome.storage.local.set({ timerState: "break"})
-    chrome.alarms.create("pomodoroTimer", { periodInMinutes: 1 / 60 })
+    chrome.storage.local.set({ isRunning, timerState: timerType })
   })
+
+  chrome.alarms.create("pomodoroTimer", { periodInMinutes: 1 / 60 })
 }
 
 function pauseTimer(){
@@ -80,10 +71,10 @@ function resetTimer(currentTimerState?: TimerState){
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   switch(message.action){
     case 'focusTimer':
-      focusTimer()
+      setTimer("focus")
       break
     case 'breakTimer':
-      breakTimer()
+      setTimer("break")
       break
     case 'pauseTimer':
       pauseTimer()
@@ -94,9 +85,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     case 'resetBreakTimer':
       resetTimer("break")
       break
-    case 'break':
-      breakTimer()
-      break
   }
   sendResponse({timer: currentTimer, isRunning})
 })
@@ -106,28 +94,28 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 // Notification tabs
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if(request.action === 'work'){
-    sendResponse({ tabId: sender.tab.id})
-    if(sender.tab && sender.tab.id){
+    // sendResponse({ tabId: sender.tab.id})
+    // if(sender.tab && sender.tab.id){
       chrome.tabs.remove(sender.tab.id)
       chrome.storage.local.get("timerOption", res => {
         currentTimer = res.timerOption
         isRunning = true
         changeBadge({ text: formatTime(currentTimer), textColor: "white", backgroundColor: POMODORO_COLOR})
-        chrome.storage.local.set({currentTimer, isRunning})
+        chrome.storage.local.set({currentTimer, isRunning, timerState: "focus"})
         chrome.alarms.create("pomodoroTimer", { periodInMinutes: 1 / 60 })
       })
-    }
+    // }
   }else if(request.action === 'break'){
-    sendResponse({ tabId: sender.tab.id})
-    if(sender.tab && sender.tab.id){
+    // sendResponse({ tabId: sender.tab.id})
+    // if(sender.tab && sender.tab.id){
       chrome.tabs.remove(sender.tab.id)
       chrome.storage.local.get("breakOption", res => {
         currentTimer = res.breakOption
         isRunning = true
         changeBadge({ text: formatTime(currentTimer), textColor: "white", backgroundColor: BREAK_COLOR})
-        chrome.storage.local.set({currentTimer, isRunning})
+        chrome.storage.local.set({currentTimer, isRunning, timerState: "break"})
         chrome.alarms.create("pomodoroTimer", { periodInMinutes: 1 / 60 })
       })
-    }
+    // }
   }
 })

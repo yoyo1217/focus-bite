@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { getTime, updateTime } from '../utils/storage'
 import Timer from '../components/Timer'
 
+import '@fontsource/playpen-sans'
 import './popup.css'
 
 
