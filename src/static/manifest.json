@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Focus Bite",
   "description": "Simple pomodoro timer extension",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "icons": {
     "16": "icon.png",
     "48": "icon.png",
@@ -17,8 +17,5 @@
   "background": {
     "service_worker": "background.js"
   },
-  "permissions": [
-    "storage",
-    "alarms"
-  ]
+  "permissions": ["storage", "alarms"]
 }
