@@ -4,10 +4,6 @@
   </a>
 </p>
 
-<p align="center" style="text-decoration: underline;">
-  <a href="https://chromewebstore.google.com/detail/focus-bite/bbofenleefnnokngmachgjhhkchffabo?hl=en-GB">Chrome Store</a>
-</p>
-
 # Focus Bite
 
 Focus Bite is a simple pomodoro timer chrome extension.
